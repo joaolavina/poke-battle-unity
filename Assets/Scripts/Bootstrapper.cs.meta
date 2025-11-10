@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 393c7984dab3db7418b76faeffa446e9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _canvasPrefab: {instanceID: 0}
+  - _snackbarPrefab: {instanceID: 0}
+  - _loadingPrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
