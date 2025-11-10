@@ -178,6 +178,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -722,7 +735,31 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SpriteSheet_Loading_0: -4977843932943365941
+      SpriteSheet_Loading_1: -4532731591679792610
+      SpriteSheet_Loading_10: -6560019283190337095
+      SpriteSheet_Loading_11: 1338977095015707178
+      SpriteSheet_Loading_12: -5331213876345238146
+      SpriteSheet_Loading_13: 1291663428395984525
+      SpriteSheet_Loading_14: 3941949871872185258
+      SpriteSheet_Loading_15: -2764618900963393843
+      SpriteSheet_Loading_16: -679121975032315863
+      SpriteSheet_Loading_17: -5847585583387588966
+      SpriteSheet_Loading_18: 543128595690013596
+      SpriteSheet_Loading_19: 6180573968652478412
+      SpriteSheet_Loading_2: -5765766352709627877
+      SpriteSheet_Loading_20: 512451635676049579
+      SpriteSheet_Loading_21: -3523113226484968354
+      SpriteSheet_Loading_22: 2982168078351661872
+      SpriteSheet_Loading_23: 7682380082621824824
+      SpriteSheet_Loading_3: 3738084297663493962
+      SpriteSheet_Loading_4: -2973074657394477709
+      SpriteSheet_Loading_5: -7467708699968241768
+      SpriteSheet_Loading_6: 7182750328229075059
+      SpriteSheet_Loading_7: -1174081975570069002
+      SpriteSheet_Loading_8: -4783815901179671603
+      SpriteSheet_Loading_9: -2026937566604665932
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
