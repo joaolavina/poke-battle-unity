@@ -235,7 +235,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1080
-        y: 1268
+        y: 1269
         width: 368
         height: 128
       alignment: 0
@@ -345,12 +345,12 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1088
-        y: 1116
+        y: 1117
         width: 360
         height: 124
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 115, y: 30, z: 115, w: 30}
       customData: 
       outline: []
       physicsShape: []
@@ -460,7 +460,7 @@ TextureImporter:
         height: 116
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 115, y: 30, z: 115, w: 30}
       customData: 
       outline: []
       physicsShape: []
@@ -802,6 +802,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI SIMPLE PIXEL UNSPLIT_1
+      rect:
+        serializedVersion: 2
+        x: 1609
+        y: 1067
+        width: 12
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 846a82f4eda05974588e7aeac468270f
+      internalID: 918812147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -846,6 +868,7 @@ TextureImporter:
       SOUND_ON: 433989029
       SOUND_ON1: 1820693325
       UI SIMPLE PIXEL UNSPLIT_0: -369739456
+      UI SIMPLE PIXEL UNSPLIT_1: 918812147
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
