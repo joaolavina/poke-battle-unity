@@ -6,6 +6,7 @@ public class Bootstrapper : MonoBehaviour
     [SerializeField] private GameObject canvasGlobalPrefab; // deve conter Canvas + EventSystem
     [SerializeField] private GameObject snackbarPrefab;
     [SerializeField] private GameObject loadingPrefab;
+    [SerializeField] private GameObject managersPrefab;
 
     private static bool _initialized = false;
     private static Transform _uiRoot;
@@ -24,6 +25,7 @@ public class Bootstrapper : MonoBehaviour
         CreateUIRootIfNeeded();
         InstantiateGlobalIfMissing(snackbarPrefab, "Snackbar");
         InstantiateGlobalIfMissing(loadingPrefab, "Loading");
+        InstantiateGlobalIfMissing(managersPrefab, "Managers");
 
         // Inicialize singletons puros se precisar:
         _ = ApiService.GetInstance();

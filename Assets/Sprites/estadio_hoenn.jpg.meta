@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      estadio_hoenn_0: 8272276958092607481
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

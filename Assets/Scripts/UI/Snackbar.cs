@@ -1,10 +1,14 @@
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Snackbar : SingletonMonoBehaviour<Snackbar>
 {
 
     [SerializeField] private Animator _animator;
+    [SerializeField] private TextMeshProUGUI _messageField;
 
     protected override void Awake()
     {
@@ -25,8 +29,9 @@ public class Snackbar : SingletonMonoBehaviour<Snackbar>
         StartCoroutine(PlayAnimationAndDisable());
     }
 
-    public void ShowSnackbar()
+    public void ShowSnackbar(String text)
     {
+        _messageField.text = text;
         gameObject.SetActive(true);
     }
 
