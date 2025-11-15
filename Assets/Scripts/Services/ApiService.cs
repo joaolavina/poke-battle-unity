@@ -31,6 +31,30 @@ public class ApiService : Singleton<ApiService>
         return request.downloadHandler.text;
     }
 
+        public async Task<string> Get(string endpoint)
+    {
+        using var request = UnityWebRequest.Get(baseUrl + endpoint);
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        var operation = request.SendWebRequest();
+        while (!operation.isDone)
+            await Task.Yield();
+
+        if (request.result != UnityWebRequest.Result.Success)
+            throw new System.Exception($"Erro HTTP GET: {request.error}");
+
+        return request.downloadHandler.text;
+    }
+
+
+    public async Task<T> GetJson<T>(string endpoint)
+    {
+        string response = await Get(endpoint);
+        if (string.IsNullOrWhiteSpace(response)) return default;
+        if (typeof(T) == typeof(string)) return (T)(object)response;
+        return JsonUtility.FromJson<T>(response); // cuidado com arrays/primitivos
+    }
+
     public async Task<T> PostJson<T>(string endpoint, object body = null)
     {
         // Serializa só quando tiver body

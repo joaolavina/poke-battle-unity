@@ -5,7 +5,7 @@ using UnityEngine;
 public class LoginBehaviour : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _usernameField, _passwordField;
-    [SerializeField] private GameObject _loginPanel, _stadiumPanel;
+    [SerializeField] private GameObject _loginPanel, _teamPanel, _stadiumPanel;
 
     private Loading _loading => Loading.GetInstance();
     private Snackbar _snackbar => Snackbar.GetInstance();
@@ -15,6 +15,7 @@ public class LoginBehaviour : MonoBehaviour
     private void Awake()
     {
         _uiManager.RegisterElement("LoginPanel", _loginPanel);
+        _uiManager.RegisterElement("TeamPanel", _teamPanel);
         _uiManager.RegisterElement("StadiumPanel", _stadiumPanel);
     }
 
@@ -26,7 +27,7 @@ public class LoginBehaviour : MonoBehaviour
             await _userService.Login(_usernameField.text, _passwordField.text);
 
             _uiManager.SetUIElement("LoginPanel", false);
-            _uiManager.SetUIElement("StadiumPanel", true);
+            _uiManager.SetUIElement("TeamPanel", true);
         }
         catch (System.Exception e)
         {
