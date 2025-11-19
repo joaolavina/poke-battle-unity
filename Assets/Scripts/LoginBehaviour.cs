@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoginBehaviour : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField _usernameField, _passwordField;
+    [SerializeField] private TMP_InputField _usernameField;
     [SerializeField] private GameObject _loginPanel, _teamPanel, _stadiumPanel;
 
     private Loading _loading => Loading.GetInstance();
@@ -24,7 +24,7 @@ public class LoginBehaviour : MonoBehaviour
         try
         {
             _loading.Show();
-            await _userService.Login(_usernameField.text, _passwordField.text);
+            await _userService.Login(_usernameField.text);
 
             _uiManager.SetUIElement("LoginPanel", false);
             _uiManager.SetUIElement("TeamPanel", true);

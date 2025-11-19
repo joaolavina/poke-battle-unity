@@ -16,8 +16,7 @@ public class StadiumInstance : MonoBehaviour
         try
         {
             _loading.Show();
-            // string result = await _stadiumService.EnterStadium(_userService.CurrentUser.id, _stadium);
-            // Debug.Log($"StadiumInstance: Resultado ao entrar no estádio: {result}");
+            await _stadiumService.EnterStadium(_userService.CurrentUser.id, _stadium);
 
             _stadiumService.Stadium = _stadium;
             _uiManager.SetUIElement("StadiumPanel", false);

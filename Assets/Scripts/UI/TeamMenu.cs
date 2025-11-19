@@ -84,7 +84,7 @@ public class TeamMenu : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                _snackbar.ShowSnackbar("Erro ao adicionar Pokémon");
+                _snackbar.ShowSnackbar("Erro ao adicionar Pokemon");
                 Debug.LogError($"TeamMenu: Erro ao adicionar Pokémon: {e.Message}", this);
             }
             finally
@@ -92,6 +92,30 @@ public class TeamMenu : MonoBehaviour
                 _loading.Hide();
             }
 
+        }
+    }
+
+    public async void RemovePokemon(int slotIndex)
+    {
+        try
+        {
+            _loading.Show();
+            Pokemon[] team = await _pokemonService.GetTeam();
+            if (slotIndex < team.Length)
+            {
+                Pokemon pokemon = team[slotIndex];
+                await _pokemonService.RemovePokemonFromTeam(_userService.CurrentUser.id, pokemon.id);
+                await LoadTeam();
+            }
+        }
+        catch (System.Exception e)
+        {
+            _snackbar.ShowSnackbar("Erro ao remover Pokemon");
+            Debug.LogError($"TeamMenu: Erro ao remover Pokémon: {e.Message}", this);
+        }
+        finally
+        {
+            _loading.Hide();
         }
     }
 

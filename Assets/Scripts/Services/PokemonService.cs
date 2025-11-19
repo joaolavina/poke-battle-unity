@@ -31,6 +31,11 @@ public class PokemonService : Singleton<PokemonService>
         return user;
     }
 
+    public async Task<User> RemovePokemonFromTeam(int userId, int pokemonId)
+    {
+        User user = await _apiService.DeleteJson<User>($"users/{userId}/team/{pokemonId}");
+        return user;
+    }
     
 }
  

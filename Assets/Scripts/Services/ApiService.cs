@@ -31,7 +31,7 @@ public class ApiService : Singleton<ApiService>
         return request.downloadHandler.text;
     }
 
-        public async Task<string> Get(string endpoint)
+    public async Task<string> Get(string endpoint)
     {
         using var request = UnityWebRequest.Get(baseUrl + endpoint);
         request.downloadHandler = new DownloadHandlerBuffer();
@@ -46,6 +46,20 @@ public class ApiService : Singleton<ApiService>
         return request.downloadHandler.text;
     }
 
+    public async Task<string> Delete(string endpoint)
+    {
+        using var request = UnityWebRequest.Delete(baseUrl + endpoint);
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        var operation = request.SendWebRequest();
+        while (!operation.isDone)
+            await Task.Yield();
+
+        if (request.result != UnityWebRequest.Result.Success)
+            throw new System.Exception($"Erro HTTP DELETE: {request.error}");
+
+        return request.downloadHandler.text;
+    }
 
     public async Task<T> GetJson<T>(string endpoint)
     {
@@ -88,6 +102,27 @@ public class ApiService : Singleton<ApiService>
         catch (System.Exception ex)
         {
             Debug.LogError($"[ApiService] Falha ao desserializar resposta para {typeof(T)}. Response: {response}. Ex: {ex}");
+            throw;
+        }
+    }
+
+    public async Task<T> DeleteJson<T>(string endpoint)
+    {
+        string response = await Delete(endpoint);
+
+        if (string.IsNullOrWhiteSpace(response))
+            return default;
+
+        if (typeof(T) == typeof(string))
+            return (T)(object)response;
+
+        try
+        {
+            return JsonUtility.FromJson<T>(response);
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[ApiService] Falha ao desserializar DELETE resposta para {typeof(T)}. Response: {response}. Ex: {ex}");
             throw;
         }
     }

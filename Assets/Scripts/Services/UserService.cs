@@ -13,9 +13,9 @@ public class UserService: Singleton<UserService>
         _currentUser = null;
     }
 
-    public async Task<User> Login(string name, string password)
+    public async Task<User> Login(string name)
     {
-        var body = new LoginRequest { name = name, password = password };
+        var body = new LoginRequest { name = name };
 
         User user = await _apiService.PostJson<User>("users", body);
         CurrentUser = user;

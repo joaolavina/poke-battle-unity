@@ -680,7 +680,7 @@ TextureImporter:
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 30, y: 30, z: 30, w: 30}
       customData: 
       outline: []
       physicsShape: []
@@ -811,7 +811,7 @@ TextureImporter:
         width: 12
         height: 68
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -820,6 +820,28 @@ TextureImporter:
       bones: []
       spriteID: 846a82f4eda05974588e7aeac468270f
       internalID: 918812147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI SIMPLE PIXEL UNSPLIT_2
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 209
+        width: 12
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c18d06c5311ecf346bf96bb541fa02a5
+      internalID: 562779925
       vertices: []
       indices: 
       edges: []
@@ -869,6 +891,7 @@ TextureImporter:
       SOUND_ON1: 1820693325
       UI SIMPLE PIXEL UNSPLIT_0: -369739456
       UI SIMPLE PIXEL UNSPLIT_1: 918812147
+      UI SIMPLE PIXEL UNSPLIT_2: 562779925
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
