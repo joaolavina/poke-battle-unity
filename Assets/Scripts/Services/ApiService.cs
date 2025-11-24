@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class ApiService : Singleton<ApiService>
 {
-    private string baseUrl = "http://localhost:8081/";
+    private string baseUrl = "http://localhost:8080/";
 
     public async Task<string> Post(string endpoint, string json = null)
     {

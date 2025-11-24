@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 56936409}
   - component: {fileID: 56936410}
+  - component: {fileID: 56936411}
   m_Layer: 0
   m_Name: Bootstrapper
   m_TagString: Untagged
@@ -167,6 +168,18 @@ MonoBehaviour:
   snackbarPrefab: {fileID: 64027304574670074, guid: bc60e363075dd81478c096cbd6c49048, type: 3}
   loadingPrefab: {fileID: 5347804252784449108, guid: 720174cd38dde1b4f89112ce377362ce, type: 3}
   managersPrefab: {fileID: 1955898378677650425, guid: c4281a514a753bd4ba725db03b9a463a, type: 3}
+--- !u!114 &56936411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56936407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9ec5fc0bf650d747a30cc1ae5573abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1288389450
 GameObject:
   m_ObjectHideFlags: 0

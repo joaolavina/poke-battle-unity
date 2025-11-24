@@ -23,5 +23,9 @@ public class UserService: Singleton<UserService>
         return user;
     }
 
-
+    public async Task<User> GetUserByName(string name)
+    {
+        User user = await _apiService.GetJson<User>($"users/name/{name}");
+        return user;
+    }    
 }

@@ -8,28 +8,41 @@ public class StadiumService: Singleton<StadiumService>
     private ApiService _apiService => ApiService.GetInstance();
     private GameObject _stadium;
 
-    public async Task<string> EnterStadium(int idUser, GameObject stadium)
+    public async Task<EnterStadiumResponse> EnterStadium(int idUser, GameObject stadium)
     {
-        var result = await _apiService.PostJson<string>($"stadium/{idUser}/enter/{stadium.name}");
+        Debug.Log($"StadiumService: Entrando no estádio {stadium.name} para o usuário {idUser}");
+        var result = await _apiService.PostJson<EnterStadiumResponse>($"stadium/{idUser}/enter/{stadium.name}");
         Stadium = stadium;
         return result;
     }
 
-    public async Task<string> Attack(int idUser, int battleId)
+    public async Task<string> Attack(int idUser, string battleId)
     {
-        var result = await _apiService.PostJson<string>($"users/{idUser}/attack?battleId={battleId}");
+        var result = await _apiService.PostJson<string>($"battle/{idUser}/attack?battleId={battleId}");
         return result;
     }
     
-    public async Task<string> Flee(int idUser, int battleId)
+    public async Task<string> Flee(int idUser, string battleId)
     {
         var result = await _apiService.PostJson<string>($"users/{idUser}/flee?battleId={battleId}");
         return result;
     }
 
-    public async Task<string> SwitchPokemon(int idUser, int battleId, int pokemonIndex)
+    public async Task<string> SwitchPokemon(int idUser, string battleId, int pokemonIndex)
     {
         var result = await _apiService.PostJson<string>($"users/{idUser}/switch-pokemon?battleId={battleId}&pokemonIndex={pokemonIndex}");
         return result;
+    }
+
+    public async Task<StadiumResponse> GetAvailableStadiums()
+    {
+        StadiumResponse stadiumResponse = await _apiService.GetJson<StadiumResponse>("stadium/available");
+        return stadiumResponse;
+    }
+
+    public async Task <StadiumStatusDTO> GetStadiumStatus()
+    {
+        StadiumStatusDTO stadiumStatus = await _apiService.GetJson<StadiumStatusDTO>($"{_stadium.name}/status");
+        return stadiumStatus;
     }
 }

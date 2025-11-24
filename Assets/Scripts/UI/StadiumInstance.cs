@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class StadiumInstance : MonoBehaviour
 {
-    [SerializeField] private GameObject _teamPanel;
     [SerializeField] private GameObject _stadium;
 
     private StadiumService _stadiumService => StadiumService.GetInstance();
@@ -16,16 +15,18 @@ public class StadiumInstance : MonoBehaviour
         try
         {
             _loading.Show();
+            Debug.Log(_stadium.name);
             await _stadiumService.EnterStadium(_userService.CurrentUser.id, _stadium);
 
-            _stadiumService.Stadium = _stadium;
             _uiManager.SetUIElement("StadiumPanel", false);
             SceneManager.LoadScene("Battle");
-        } catch (System.Exception e)
+        }
+        catch (System.Exception e)
         {
             _snackbar.ShowSnackbar("Erro ao entrar no estádio");
             Debug.LogError($"StadiumInstance: Erro ao entrar no estádio: {e.Message}", this);
-        } finally
+        }
+        finally
         {
             _loading.Hide();
         }

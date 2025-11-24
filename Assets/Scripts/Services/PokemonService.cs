@@ -28,12 +28,14 @@ public class PokemonService : Singleton<PokemonService>
         var body = new AddPokemonRequest { pokemonId = pokemonId };
 
         User user = await _apiService.PostJson<User>($"users/{userId}/team", body);
+        _userService.CurrentUser = user;
         return user;
     }
 
     public async Task<User> RemovePokemonFromTeam(int userId, int pokemonId)
     {
         User user = await _apiService.DeleteJson<User>($"users/{userId}/team/{pokemonId}");
+        _userService.CurrentUser = user;
         return user;
     }
     

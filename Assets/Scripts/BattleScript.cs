@@ -1,29 +1,75 @@
+using System.Net.WebSockets;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleScript : MonoBehaviour
 {
+    [SerializeField] private GameObject _pokemonPlayer, _pokemonOpponent, _pokemonPlayerHealthBar, _pokemonOpponentHealthBar, _panelBtn, _waitingPlayersPanel;
+    [SerializeField] private TextMeshProUGUI _battleLogText;
+
     private StadiumService _stadiumService => StadiumService.GetInstance();
     private UserService _userService => UserService.GetInstance();
     private Loading _loading => Loading.GetInstance();
     private Snackbar _snackbar => Snackbar.GetInstance();
-    private GameObject _stadiumInstance;
-    private User _currentUser => _userService.CurrentUser;
+    private SpriteService _spriteService => SpriteService.GetInstance();
+    private BattleWebSocket _battleWebSocket => BattleWebSocket.GetInstance();
+    private User _opponentUser;
 
-    private int _battleId;
+    private string _battleId;
 
 
     void Awake()
     {
-        _stadiumInstance = Instantiate(_stadiumService.Stadium);
+        Instantiate(_stadiumService.Stadium);
+        RenderPokemonSprite("player", _userService.CurrentUser.team[0]);
+
     }
 
-    public async Task Attack()
+    void OnEnable()
+    {
+        _battleWebSocket.BattleStart += BattleStart;
+        _battleWebSocket.PlayerAction += ChooseCommand;
+    }
+
+    void OnDisable()
+    {
+        _battleWebSocket.BattleStart -= BattleStart;
+    }
+
+    private async void BattleStart(BattleMessageDTO dto)
+    {
+        _waitingPlayersPanel.SetActive(false);
+
+        if (dto.opponentName == _userService.CurrentUser.name)
+        {
+            _opponentUser = await _userService.GetUserByName(dto.user.name);
+            LogBattleEvent("Esperando a vez do oponente.");
+        }
+        else
+        {
+            _opponentUser = await _userService.GetUserByName(dto.opponentName);
+            SetButtons(true);
+        }
+
+        _battleId = dto.battleId;
+        _pokemonOpponent.SetActive(true);
+        _pokemonOpponentHealthBar.SetActive(true);
+        RenderPokemonSprite("opponent", _opponentUser.team[0]);
+    }
+
+    private void ChooseCommand(BattleMessageDTO dto)
+    {
+        LogBattleEvent("Seu turno. Escolha uma acao");
+    }
+
+    public async void Attack()
     {
         try
         {
             _loading.Show();
-            await _stadiumService.Attack(_currentUser.id, _battleId);
+            await _stadiumService.Attack(_userService.CurrentUser.id, _battleId);
         }
         catch (System.Exception e)
         {
@@ -41,7 +87,7 @@ public class BattleScript : MonoBehaviour
         try
         {
             _loading.Show();
-            await _stadiumService.Flee(_currentUser.id, _battleId);
+            await _stadiumService.Flee(_userService.CurrentUser.id, _battleId);
         }
         catch (System.Exception e)
         {
@@ -59,7 +105,7 @@ public class BattleScript : MonoBehaviour
         try
         {
             _loading.Show();
-            await _stadiumService.SwitchPokemon(_currentUser.id, _battleId, pokemonIndex);
+            await _stadiumService.SwitchPokemon(_userService.CurrentUser.id, _battleId, pokemonIndex);
         }
         catch (System.Exception e)
         {
@@ -69,6 +115,90 @@ public class BattleScript : MonoBehaviour
         finally
         {
             _loading.Hide();
+        }
+    }
+
+    private async void RenderPokemonSprite(string user, Pokemon pokemon)
+    {
+        try
+        {
+            _loading.Show();
+            Sprite pokemonSprite;
+
+            if (user == "player")
+            {
+                pokemonSprite = await _spriteService.DownloadSpriteAsync(pokemon.backSprite);
+                _pokemonPlayer.GetComponent<SpriteRenderer>().sprite = pokemonSprite;
+            }
+            else
+            {
+                pokemonSprite = await _spriteService.DownloadSpriteAsync(pokemon.frontSprite);
+                _pokemonOpponent.GetComponent<SpriteRenderer>().sprite = pokemonSprite;
+            }
+
+            pokemonSprite.texture.filterMode = FilterMode.Point;
+            UpdatePokemonStats(user, pokemon);
+            return;
+
+        }
+        catch (System.Exception e)
+        {
+            _snackbar.ShowSnackbar("Erro ao carregar sprite do Pokémon");
+            Debug.LogError($"BattleScript: Erro ao carregar sprite do Pokémon: {e.Message}", this);
+        }
+        finally
+        {
+            _loading.Hide();
+        }
+
+    }
+
+    private void UpdatePokemonStats(string user, Pokemon pokemon)
+    {
+        if (user == "player")
+        {
+            _pokemonPlayerHealthBar.transform.Find("PokeName").GetComponent<TextMeshProUGUI>().text = pokemon.name;
+        }
+        else
+        {
+            _pokemonOpponentHealthBar.transform.Find("PokeName").GetComponent<TextMeshProUGUI>().text = pokemon.name;
+        }
+
+        UpdatePokemonHealthBar(user, pokemon);
+    }
+
+    private void UpdatePokemonHealthBar(string user, Pokemon pokemon)
+    {
+        Slider slider;
+        TextMeshProUGUI hpText;
+
+        if (user == "player")
+        {
+            slider = _pokemonPlayerHealthBar.transform.Find("HP_BAR").GetComponent<Slider>();
+            hpText = _pokemonPlayerHealthBar.transform.Find("HP_BAR/HP_TEXT").GetComponent<TextMeshProUGUI>();
+
+        }
+        else
+        {
+            slider = _pokemonOpponentHealthBar.transform.Find("HP_BAR").GetComponent<Slider>();
+            hpText = _pokemonOpponentHealthBar.transform.Find("HP_BAR/HP_TEXT").GetComponent<TextMeshProUGUI>();
+        }
+
+        slider.maxValue = pokemon.hp;
+        slider.value = pokemon.currentHp;
+        hpText.text = $"{pokemon.currentHp} / {pokemon.hp}";
+    }
+
+    private void LogBattleEvent(string message)
+    {
+        _battleLogText.text = message;
+    }
+
+    private void SetButtons(bool state)
+    {
+        foreach (Transform btn in _panelBtn.transform)
+        {
+            btn.gameObject.GetComponent<Button>().interactable = state;
         }
     }
 }

@@ -11,6 +11,7 @@ public class LoginBehaviour : MonoBehaviour
     private Snackbar _snackbar => Snackbar.GetInstance();
     private UIManager _uiManager => UIManager.GetInstance();
     private UserService _userService => UserService.GetInstance();
+    private BattleWebSocket _battleWebSocket => BattleWebSocket.GetInstance();
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class LoginBehaviour : MonoBehaviour
 
             _uiManager.SetUIElement("LoginPanel", false);
             _uiManager.SetUIElement("TeamPanel", true);
+            await _battleWebSocket.Connect();
         }
         catch (System.Exception e)
         {
