@@ -69,7 +69,7 @@ public class BattleScript : MonoBehaviour
         try
         {
             _loading.Show();
-            await _stadiumService.Attack(_userService.CurrentUser.id, _battleId);
+            await _stadiumService.Attack(_opponentUser.id, _battleId);
         }
         catch (System.Exception e)
         {
@@ -123,21 +123,23 @@ public class BattleScript : MonoBehaviour
         try
         {
             _loading.Show();
+            UpdatePokemonStats(user, pokemon);
             Sprite pokemonSprite;
 
             if (user == "player")
             {
                 pokemonSprite = await _spriteService.DownloadSpriteAsync(pokemon.backSprite);
-                _pokemonPlayer.GetComponent<SpriteRenderer>().sprite = pokemonSprite;
+                if(pokemonSprite != null)
+                    _pokemonPlayer.GetComponent<SpriteRenderer>().sprite = pokemonSprite;
             }
             else
             {
                 pokemonSprite = await _spriteService.DownloadSpriteAsync(pokemon.frontSprite);
-                _pokemonOpponent.GetComponent<SpriteRenderer>().sprite = pokemonSprite;
+                if(pokemonSprite != null)
+                    _pokemonOpponent.GetComponent<SpriteRenderer>().sprite = pokemonSprite;
             }
 
             pokemonSprite.texture.filterMode = FilterMode.Point;
-            UpdatePokemonStats(user, pokemon);
             return;
 
         }
