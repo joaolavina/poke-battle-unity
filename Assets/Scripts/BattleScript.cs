@@ -31,11 +31,16 @@ public class BattleScript : MonoBehaviour
     {
         _battleWebSocket.BattleStart += BattleStart;
         _battleWebSocket.PlayerAction += ChooseCommand;
+        // _battleWebSocket.TurnResult += BattleStart;
+        // _battleWebSocket.BattleEnd += ChooseCommand;
     }
 
     void OnDisable()
     {
         _battleWebSocket.BattleStart -= BattleStart;
+        _battleWebSocket.PlayerAction -= ChooseCommand;
+        // _battleWebSocket.TurnResult -= BattleStart;
+        // _battleWebSocket.BattleEnd -= ChooseCommand;
     }
 
     private async void BattleStart(BattleMessageDTO dto)
@@ -62,6 +67,7 @@ public class BattleScript : MonoBehaviour
     private void ChooseCommand(BattleMessageDTO dto)
     {
         LogBattleEvent("Seu turno. Escolha uma acao");
+        SetButtons(true);
     }
 
     public async void Attack()
@@ -69,7 +75,8 @@ public class BattleScript : MonoBehaviour
         try
         {
             _loading.Show();
-            await _stadiumService.Attack(_opponentUser.id, _battleId);
+            await _stadiumService.Attack(_userService.CurrentUser.id, _battleId);
+            SetButtons(false);
         }
         catch (System.Exception e)
         {
@@ -129,13 +136,13 @@ public class BattleScript : MonoBehaviour
             if (user == "player")
             {
                 pokemonSprite = await _spriteService.DownloadSpriteAsync(pokemon.backSprite);
-                if(pokemonSprite != null)
+                if (pokemonSprite != null)
                     _pokemonPlayer.GetComponent<SpriteRenderer>().sprite = pokemonSprite;
             }
             else
             {
                 pokemonSprite = await _spriteService.DownloadSpriteAsync(pokemon.frontSprite);
-                if(pokemonSprite != null)
+                if (pokemonSprite != null)
                     _pokemonOpponent.GetComponent<SpriteRenderer>().sprite = pokemonSprite;
             }
 
@@ -143,10 +150,9 @@ public class BattleScript : MonoBehaviour
             return;
 
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
             _snackbar.ShowSnackbar("Erro ao carregar sprite do Pokémon");
-            Debug.LogError($"BattleScript: Erro ao carregar sprite do Pokémon: {e.Message}", this);
         }
         finally
         {

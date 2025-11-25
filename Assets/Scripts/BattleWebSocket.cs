@@ -5,17 +5,6 @@ using UnityEngine;
 using NativeWebSocket;
 using UnityEngine.Events;
 
-[Serializable]
-public class BattleMessageDTO
-{
-    public string type;
-    public string battleId;
-    public string instanceId;
-    public User user;
-    public string opponentName;
-    public int damage;
-    public string battleLog;
-}
 
 public class BattleWebSocket : SingletonMonoBehaviour<BattleWebSocket>
 {
@@ -26,6 +15,8 @@ public class BattleWebSocket : SingletonMonoBehaviour<BattleWebSocket>
 
     public event UnityAction<BattleMessageDTO> BattleStart;
     public event UnityAction<BattleMessageDTO> PlayerAction;
+    public event UnityAction<BattleMessageDTO> TurnResult;
+    public event UnityAction<BattleMessageDTO> BattleEnd;
 
 
     public async Task Connect()
@@ -57,26 +48,27 @@ public class BattleWebSocket : SingletonMonoBehaviour<BattleWebSocket>
 
             try
             {
-                var dto = JsonUtility.FromJson<BattleMessageDTO>(msg);
+                var raw = JsonUtility.FromJson<RawBattleMessage>(msg);
+                var dto = BattleMessageConverter.FromRaw(raw);
                 OnBattleMessage?.Invoke(dto);
 
                 switch (dto.type)
                 {
-                    case "BATTLE_START":
+                    case MessageType.BATTLE_START:
                         BattleStart?.Invoke(dto);
                         break;
 
-                    case "PLAYER_ACTION":
+                    case MessageType.PLAYER_ACTION:
                         PlayerAction?.Invoke(dto);
                         break;
 
-                        // case "TURN_RESULT":
-                        //     HandleTurnResult(dto);
-                        //     break;
+                    case MessageType.TURN_RESULT:
+                        TurnResult?.Invoke(dto);
+                        break;
 
-                        // case "BATTLE_END":
-                        //     HandleBattleEnd(dto);
-                        //     break;
+                    case MessageType.BATTLE_END:
+                        BattleEnd?.Invoke(dto);
+                        break;
                 }
             }
             catch (Exception ex)
